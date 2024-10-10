@@ -8,7 +8,11 @@ public class FileStorageService(string baseFolder) : IFileStorageService
     public async Task<string> SaveFileAsync(byte[] file, string fileName, string destinationPath)
     {
         fileName = $"{Guid.NewGuid()}_{fileName}";
-        var path = Path.Combine(baseFolder, destinationPath, fileName);
+        var directory = Path.Combine(baseFolder, destinationPath);
+        var path = Path.Combine(directory, fileName);
+        
+        if(!Path.Exists(directory))
+            Directory.CreateDirectory(directory);
         
         await File.WriteAllBytesAsync(path, file);
 
