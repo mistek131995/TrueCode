@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SaveProductCommand = Commands.Application.Commands.SaveProduct.Command;
 using DeleteProductCommand = Commands.Application.Commands.DeleteProduct.Command;
+using GetProductListQuery = Queries.Application.Queries.ProductList.Query;
 
 namespace TrueCode.API.Controllers;
 
@@ -35,4 +36,8 @@ public class ProductController(IMediator mediator) : ControllerBase
 
         return Ok();
     }
+
+    [HttpGet]
+    public async Task<IActionResult> GetProductList([FromQuery] GetProductListQuery query) => 
+        Ok(await mediator.Send(query));
 }
