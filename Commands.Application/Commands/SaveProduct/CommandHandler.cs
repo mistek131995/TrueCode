@@ -18,7 +18,7 @@ public class CommandHandler(IRepositoryProvider repositoryProvider, IFileStorage
         var filePath = await fileStorageService.SaveFileAsync(request.Image, request.ImageName, "image");
         
         var product = new Product(request.Name, request.Article, request.Description, request.Price, request.PriceWithDiscount, filePath);
-        //await repositoryProvider.ProductRepository.SaveAsync(product);
+        await repositoryProvider.ProductRepository.SaveAsync(product);
 
         return product.Id;
     }

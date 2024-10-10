@@ -1,21 +1,13 @@
 using Commands.Application;
-using Commands.Application.Commands.SaveProduct;
 using Commands.Infrastructure.Contexts;
-using Commands.Infrastructure.Interfaces;
-using Commands.Infrastructure.Providers;
-using Commands.Infrastructure.Services;
-using FluentValidation;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
-using TrueCode.API.Behaviors;
+using Queries.Application;
 
 var builder = WebApplication.CreateBuilder(args);
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")!;
 
-builder.Services.AddCommands();
-
-builder.Services.AddDbContext<SQLContext>(option => 
-    option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
+builder.Services.AddCommands(connectionString);
+builder.Services.AddQueries(connectionString);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -30,10 +22,6 @@ builder.Services.AddCors(o => o.AddPolicy("AllowAll", builder =>
         .AllowAnyMethod()
         .AllowAnyHeader();
 }));
-
-builder.Services.AddScoped<IRepositoryProvider, RepositoryProvider>();
-builder.Services.AddScoped<IFileStorageService, FileStorageService>(service =>
-    new FileStorageService(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads")));
 
 var app = builder.Build();
 
