@@ -1,3 +1,5 @@
+using Commands.Application;
+using Commands.Application.Commands.SaveProduct;
 using Commands.Infrastructure.Contexts;
 using Commands.Infrastructure.Interfaces;
 using Commands.Infrastructure.Providers;
@@ -9,15 +11,7 @@ using TrueCode.API.Behaviors;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddMediatR(cfg => 
-{
-    cfg.RegisterServicesFromAssembly(typeof(Program).Assembly);
-});
-
-builder.Services.AddValidatorsFromAssemblyContaining<Program>();
-
-builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
-
+builder.Services.AddCommands();
 
 builder.Services.AddDbContext<SQLContext>(option => 
     option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));

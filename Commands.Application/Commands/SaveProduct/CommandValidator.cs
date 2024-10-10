@@ -20,5 +20,9 @@ public class CommandValidator : AbstractValidator<Command>
         RuleFor(x => x.PriceWithDiscount)
             .LessThan(x => x.Price).WithMessage("Цена со скидкой должна быть меньше первоначальной цены.");
 
+        RuleFor(x => x.Image)
+            .NotNull().WithMessage("Выберите изображение")
+            .NotEmpty().WithMessage("Выберите изображение");
+
     }
 }
