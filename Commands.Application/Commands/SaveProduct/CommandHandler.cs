@@ -15,7 +15,7 @@ public class CommandHandler(IRepositoryProvider repositoryProvider, IFileStorage
         if(!validationResult.IsValid)
             throw new ValidationException("Форма заполнена неправильно");
         
-        var filePath = await fileStorageService.SaveFileAsync(request.Image, request.ImageName, "image");
+        var filePath = await fileStorageService.SaveFileAsync(request.Image, request.ImageName, Path.Combine("uploads", "image"));
         
         var product = new Product(request.Name, request.Article, request.Description, request.Price, request.PriceWithDiscount, filePath);
         await repositoryProvider.ProductRepository.SaveAsync(product);
