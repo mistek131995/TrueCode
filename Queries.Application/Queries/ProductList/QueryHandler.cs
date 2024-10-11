@@ -25,13 +25,18 @@ public class QueryHandler(IDbConnection connection) : IRequestHandler<Query, Vie
             FROM Products p
             ORDER BY p.Id
             OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY;
+
+            SELECT CEILING(CONVERT(DECIMAL(18, 1), COUNT(*)) / @PageSize) FROM Products
         ";
 
-        viewModel.Products = (await connection.QueryAsync<ViewModel.Product>(sql, new
+        await using var query = await connection.QueryMultipleAsync(sql, new
         {
             Offset = offset,
             PageSize = request.CountProducts,
-        })).ToList();
+        });
+
+        viewModel.Products = query.Read<ViewModel.Product>().ToList();
+        viewModel.PageCount = query.ReadFirstOrDefault<int>();
 
         return viewModel;
     }

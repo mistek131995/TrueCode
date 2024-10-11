@@ -3,6 +3,7 @@
 public class ViewModel
 {
     public List<Product> Products { get; set; }
+    public int PageCount { get; set; }
     
     public class Product
     {
