@@ -2,7 +2,7 @@
 
 namespace Commands.Domain.Models;
 
-public class Product(Guid id, string name, string article, string description, decimal price, decimal priceWithDiscount, string imagePath, int condition)
+public class Product(Guid id, string name, string article, string description, decimal price, decimal priceWithDiscount, string imagePath, int condition = 1)
 {
     public Guid Id { get; } = id;
     public string Name { get; set; } = name;
@@ -18,5 +18,5 @@ public class Product(Guid id, string name, string article, string description, d
     public int Condition { get; set; } = condition;
     
     public Product(string name, string article, string description, decimal price, decimal priceWithDiscount, string imagePath) : 
-        this(Uuid.NewDatabaseFriendly(Database.SqlServer), name, article, description, price, priceWithDiscount, imagePath, 1) {}
+        this(Uuid.NewDatabaseFriendly(Database.SqlServer), name, article, description, price, priceWithDiscount, imagePath) {}
 }

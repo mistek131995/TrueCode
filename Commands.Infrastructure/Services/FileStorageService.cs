@@ -16,7 +16,7 @@ public class FileStorageService(string baseFolder) : IFileStorageService
         
         await File.WriteAllBytesAsync(path, file);
 
-        return path.Replace(baseFolder, string.Empty);
+        return path;
     }
 
     public async Task DeleteFileAsync(string filePath)

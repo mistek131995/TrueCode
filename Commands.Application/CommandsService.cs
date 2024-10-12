@@ -13,7 +13,7 @@ public static class CommandsService
     {
         services.AddScoped<IRepositoryProvider, RepositoryProvider>();
         services.AddScoped<IFileStorageService, FileStorageService>(service =>
-            new FileStorageService(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")));
+            new FileStorageService(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads")));
         services.AddDbContext<SQLContext>(option => option.UseSqlServer(connectionString));
         services.AddMediatR(cfg => 
         {

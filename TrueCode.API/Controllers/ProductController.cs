@@ -27,7 +27,7 @@ public class ProductController(IMediator mediator) : ControllerBase
 
         var id = await mediator.Send(command);
 
-        return Ok(id);
+        return Ok();
     }
 
     [HttpPost]

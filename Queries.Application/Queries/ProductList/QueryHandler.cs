@@ -16,12 +16,9 @@ public class QueryHandler(IDbConnection connection) : IRequestHandler<Query, Vie
             SELECT
             p.Id AS Id,
             p.Name AS Name,
-            p.Description AS Description,
             p.Price AS Price,
             P.PriceWithDiscount AS PriceWithDiscount,
-            p.ImagePath AS ImagePath,
-            p.Condition AS Condition,
-            p.Article AS Article
+            p.ImagePath AS ImagePath
             FROM Products p
             ORDER BY p.Id
             OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY;
