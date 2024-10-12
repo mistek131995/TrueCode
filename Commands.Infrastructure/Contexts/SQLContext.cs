@@ -29,8 +29,7 @@ public class SQLContext : DbContext
                 PriceWithDiscount = 8m, 
                 Article = "1", 
                 Description = "Product 1" , 
-                Condition = 1, 
-                ImagePath = String.Empty
+                Condition = 1
             },
             new Product
             {
@@ -41,7 +40,6 @@ public class SQLContext : DbContext
                 Article = "2", 
                 Description = "Product 2" , 
                 Condition = 1, 
-                ImagePath = String.Empty
             },
             new Product
             {
@@ -52,7 +50,6 @@ public class SQLContext : DbContext
                 Article = "3", 
                 Description = "Product 3" , 
                 Condition = 1, 
-                ImagePath = String.Empty
             },
             new Product
             {
@@ -63,7 +60,6 @@ public class SQLContext : DbContext
                 Article = "4", 
                 Description = "Product 4" , 
                 Condition = 1, 
-                ImagePath = String.Empty
             },
             new Product
             {
@@ -74,7 +70,6 @@ public class SQLContext : DbContext
                 Article = "5", 
                 Description = "Product 5" , 
                 Condition = 1, 
-                ImagePath = String.Empty
             },
             new Product
             {
@@ -85,7 +80,6 @@ public class SQLContext : DbContext
                 Article = "6", 
                 Description = "Product 6" , 
                 Condition = 1, 
-                ImagePath = String.Empty
             },
             new Product
             {
@@ -96,7 +90,6 @@ public class SQLContext : DbContext
                 Article = "7", 
                 Description = "Product 7" , 
                 Condition = 1, 
-                ImagePath = String.Empty
             },
             new Product
             {
@@ -107,7 +100,6 @@ public class SQLContext : DbContext
                 Article = "8", 
                 Description = "Product 8" , 
                 Condition = 1, 
-                ImagePath = String.Empty
             },
             new Product
             {
@@ -118,7 +110,6 @@ public class SQLContext : DbContext
                 Article = "9", 
                 Description = "Product 9" , 
                 Condition = 1, 
-                ImagePath = String.Empty
             },
             new Product
             {
@@ -129,7 +120,6 @@ public class SQLContext : DbContext
                 Article = "10", 
                 Description = "Product 10" , 
                 Condition = 1, 
-                ImagePath = String.Empty
             },
             new Product
             {
@@ -140,7 +130,6 @@ public class SQLContext : DbContext
                 Article = "11", 
                 Description = "Product 11" , 
                 Condition = 1, 
-                ImagePath = String.Empty
             },
             new Product
             {
@@ -151,7 +140,6 @@ public class SQLContext : DbContext
                 Article = "12", 
                 Description = "Product 12" , 
                 Condition = 1, 
-                ImagePath = String.Empty
             },
             new Product
             {
@@ -162,10 +150,10 @@ public class SQLContext : DbContext
                 Article = "12", 
                 Description = "Product 13" , 
                 Condition = 1, 
-                ImagePath = String.Empty
             }
         );
     }
 
     public DbSet<Product> Products { get; set; }
+    public DbSet<ProductImage> ProductImages { get; set; }
 }

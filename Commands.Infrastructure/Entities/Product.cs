@@ -15,7 +15,6 @@ public class Product
     public string Description { get; set; }
     public decimal Price { get; set; }
     public decimal PriceWithDiscount { get; set; }
-    public string ImagePath { get; set; }
     
     /// <summary>
     /// 0 - Удалено, 1 - Активно (Конечно можно было бы использовать Enum)

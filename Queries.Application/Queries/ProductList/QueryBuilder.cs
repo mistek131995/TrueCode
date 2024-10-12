@@ -10,10 +10,10 @@ public static class QueryBuilder
             P.PriceWithDiscount AS PriceWithDiscount,
             p.ImagePath AS ImagePath
             FROM Products p
-            
-            {(!string.IsNullOrEmpty(query.Name) && string.IsNullOrEmpty(query.Article) ? " WHERE p.Name LIKE @Name" : "")}
-            {(string.IsNullOrEmpty(query.Name) && !string.IsNullOrEmpty(query.Article) ? " WHERE p.Article = @Article" : "")}
-            {(!string.IsNullOrEmpty(query.Name) && !string.IsNullOrEmpty(query.Article) ? " WHERE p.Name LIKE @Name AND p.Article = @Article" : "")}
+            WHERE p.Condition = 1
+            {(!string.IsNullOrEmpty(query.Name) && string.IsNullOrEmpty(query.Article) ? " AND p.Name LIKE @Name" : "")}
+            {(string.IsNullOrEmpty(query.Name) && !string.IsNullOrEmpty(query.Article) ? " AND p.Article = @Article" : "")}
+            {(!string.IsNullOrEmpty(query.Name) && !string.IsNullOrEmpty(query.Article) ? " AND p.Name LIKE @Name AND p.Article = @Article" : "")}
             
             {(query.Sorting == Query.SortingType.None ? " ORDER BY p.Id" : "")}
             {(query.Sorting == Query.SortingType.NameAZ ? " ORDER BY p.Name" : "")}

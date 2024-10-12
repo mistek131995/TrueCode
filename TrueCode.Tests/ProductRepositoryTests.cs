@@ -38,7 +38,7 @@ namespace TrueCode.Tests
         public async Task GetByIdsAsync_ReturnsProduct_WhenProductFound()
         {
             // Arrange
-            var product = new Product { Id = Guid.NewGuid(), Name = "TestProduct", Article = "Article", Description = "Description", Price = 100m, PriceWithDiscount = 90m, ImagePath = "path" };
+            var product = new Product { Id = Guid.NewGuid(), Name = "TestProduct", Article = "Article", Description = "Description", Price = 100m, PriceWithDiscount = 90m };
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
 
@@ -54,7 +54,7 @@ namespace TrueCode.Tests
         public async Task SaveAsync_AddsNewProduct_WhenProductDoesNotExist()
         {
             // Arrange
-            var product = new Commands.Domain.Models.Product(Guid.NewGuid(), "NewProduct", "Article", "Description", 100m, 90m, "path", 1);
+            var product = new Commands.Domain.Models.Product(Guid.NewGuid(), "NewProduct", "Article", "Description", 100m, 90m, 1);
 
             // Act
             await _repository.SaveAsync(product);
@@ -69,11 +69,11 @@ namespace TrueCode.Tests
         public async Task SaveAsync_UpdatesExistingProduct_WhenProductExists()
         {
             // Arrange
-            var product = new Product { Id = Guid.NewGuid(), Name = "ExistingProduct", Description = "Description", Price = 100m, PriceWithDiscount = 90m, ImagePath = "path" };
+            var product = new Product { Id = Guid.NewGuid(), Name = "ExistingProduct", Description = "Description", Price = 100m, PriceWithDiscount = 90m };
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
 
-            var updatedProduct = new Commands.Domain.Models.Product(product.Id, "UpdatedProduct", "Article", "UpdatedDescription", 120m, 110m, "newPath", 1);
+            var updatedProduct = new Commands.Domain.Models.Product(product.Id, "UpdatedProduct", "Article", "UpdatedDescription", 120m, 110m, 1);
 
             // Act
             await _repository.SaveAsync(updatedProduct);
@@ -89,8 +89,8 @@ namespace TrueCode.Tests
         public async Task GetByIdsAsync_MultipleIds_ReturnsProducts()
         {
             // Arrange
-            var product1 = new Product { Id = Guid.NewGuid(), Name = "Product1", Description = "Description1", Price = 100m, PriceWithDiscount = 90m, ImagePath = "path1" };
-            var product2 = new Product { Id = Guid.NewGuid(), Name = "Product2", Description = "Description2", Price = 200m, PriceWithDiscount = 180m, ImagePath = "path2" };
+            var product1 = new Product { Id = Guid.NewGuid(), Name = "Product1", Description = "Description1", Price = 100m, PriceWithDiscount = 90m };
+            var product2 = new Product { Id = Guid.NewGuid(), Name = "Product2", Description = "Description2", Price = 200m, PriceWithDiscount = 180m };
             _context.Products.AddRange(product1, product2);
             await _context.SaveChangesAsync();
 
