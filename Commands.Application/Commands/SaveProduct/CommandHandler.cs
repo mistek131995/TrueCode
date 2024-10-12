@@ -11,11 +11,17 @@ public class CommandHandler(IRepositoryProvider repositoryProvider, IFileStorage
     {
         var validator = new CommandValidator();
         var validationResult = await validator.ValidateAsync(request);
+
+        if (!validationResult.IsValid)
+        {
+            var messages = validationResult.Errors.Select(x => x.ErrorMessage);
+            var message = string.Join(Environment.NewLine, messages);
+            
+            throw new ValidationException(message);
+        }
+
         
-        if(!validationResult.IsValid)
-            throw new ValidationException("Форма заполнена неправильно");
-        
-        var product = new Product(request.Id, request.Name, request.Article, request.Description, request.Price, request.PriceWithDiscount);
+        var product = new Product(request.Id ?? Guid.NewGuid(), request.Name, request.Article, request.Description, request.Price, request.PriceWithDiscount);
         await repositoryProvider.ProductRepository.SaveAsync(product);
         
         if (request.Image is { Length: > 0 })

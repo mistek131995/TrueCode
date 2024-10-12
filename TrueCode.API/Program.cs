@@ -2,6 +2,7 @@ using Commands.Application;
 using Commands.Infrastructure.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Queries.Application;
+using TrueCode.API.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")!;
@@ -40,9 +41,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.MapControllers();
 app.UseStaticFiles();
