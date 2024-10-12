@@ -26,4 +26,5 @@ public class RepositoryProvider(IServiceProvider serviceProvider) : IRepositoryP
     }
     
     public IProductRepository ProductRepository => Get<ProductRepository>();
+    public IProductImageRepository ProductImageRepository => Get<ProductImageRepository>();
 }

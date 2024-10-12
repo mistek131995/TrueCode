@@ -8,12 +8,14 @@ public static class QueryBuilder
             p.Name AS Name,
             p.Price AS Price,
             P.PriceWithDiscount AS PriceWithDiscount,
-            p.ImagePath AS ImagePath
+			[pi].FileName AS FileName,
+			[pi].ContentType AS ContentType,
+			[pi].Path AS Path
             FROM Products p
+			LEFT JOIN ProductImages [pi] ON p.Id = [pi].ProductId
             WHERE p.Condition = 1
-            {(!string.IsNullOrEmpty(query.Name) && string.IsNullOrEmpty(query.Article) ? " AND p.Name LIKE @Name" : "")}
-            {(string.IsNullOrEmpty(query.Name) && !string.IsNullOrEmpty(query.Article) ? " AND p.Article = @Article" : "")}
-            {(!string.IsNullOrEmpty(query.Name) && !string.IsNullOrEmpty(query.Article) ? " AND p.Name LIKE @Name AND p.Article = @Article" : "")}
+            {(!string.IsNullOrEmpty(query.Name) ? " AND p.Name LIKE @Name" : "")}
+            {(!string.IsNullOrEmpty(query.Article) ? " AND p.Article = @Article" : "")}
             
             {(query.Sorting == Query.SortingType.None ? " ORDER BY p.Id" : "")}
             {(query.Sorting == Query.SortingType.NameAZ ? " ORDER BY p.Name" : "")}

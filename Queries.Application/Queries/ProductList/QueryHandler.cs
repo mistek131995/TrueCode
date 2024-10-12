@@ -28,6 +28,11 @@ public class QueryHandler(IDbConnection connection) : IRequestHandler<Query, Vie
         viewModel.Products = query.Read<ViewModel.Product>().ToList();
         viewModel.PageCount = query.ReadFirstOrDefault<int>();
 
+        foreach (var product in viewModel.Products.Where(x => !string.IsNullOrEmpty(x.Path)))
+        {
+            product.Image = await File.ReadAllBytesAsync(product.Path, cancellationToken);
+        }
+
         return viewModel;
     }
 }

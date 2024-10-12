@@ -10,6 +10,7 @@ public class Command : IRequest<Guid>
     public string Description { get; set; }
     public decimal Price { get; set; }
     public decimal PriceWithDiscount { get; set; }
-    public string ImageName { get; set; }
+    public string ImageName { get; set; } = string.Empty;
+    public string ContentType { get; set; } = String.Empty;
     public byte[]? Image { get; set; }
 }

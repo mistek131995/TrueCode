@@ -5,4 +5,5 @@ namespace Commands.Infrastructure.Interfaces;
 public interface IRepositoryProvider
 {
     IProductRepository ProductRepository { get; }
+    IProductImageRepository ProductImageRepository { get; }
 }

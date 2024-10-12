@@ -15,13 +15,15 @@ public class CommandHandler(IRepositoryProvider repositoryProvider, IFileStorage
         if(!validationResult.IsValid)
             throw new ValidationException("Форма заполнена неправильно");
         
-        var imagePath = string.Empty;
-            
-        if(request.Image != null && request.Image.Length > 0)
-            imagePath = await fileStorageService.SaveFileAsync(request.Image, request.ImageName, "image");
-        
         var product = new Product(request.Id, request.Name, request.Article, request.Description, request.Price, request.PriceWithDiscount);
         await repositoryProvider.ProductRepository.SaveAsync(product);
+        
+        if (request.Image is { Length: > 0 })
+        {
+            var imagePath = await fileStorageService.SaveFileAsync(request.Image, request.ImageName, "image");
+            var productImage = new ProductImage(product.Id, request.ImageName, imagePath, request.ContentType);
+            await repositoryProvider.ProductImageRepository.SaveAsync(productImage);
+        }
 
         return product.Id;
     }

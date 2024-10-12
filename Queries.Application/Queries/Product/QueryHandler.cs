@@ -8,7 +8,7 @@ public class QueryHandler(IDbConnection connection) : IRequestHandler<Query, Vie
 {
     public async Task<ViewModel> Handle(Query request, CancellationToken cancellationToken)
     {
-        var result = new ViewModel();
+        var viewModel = new ViewModel();
 
         var sql = @"
             SELECT TOP 1
@@ -17,15 +17,21 @@ public class QueryHandler(IDbConnection connection) : IRequestHandler<Query, Vie
             p.Description AS Description,
             p.Price AS Price,
             P.PriceWithDiscount AS PriceWithDiscount,
-            p.ImagePath AS ImagePath,
             p.Condition AS Condition,
-            p.Article AS Article
+            p.Article AS Article,
+			[pi].FileName AS FileName,
+			[pi].ContentType AS ContentType,
+			[pi].Path AS Path
             FROM Products p
+			LEFT JOIN ProductImages [pi] ON p.Id = [pi].ProductId
 			WHERE p.Id = @Id
         ";
 
-        result = await connection.QueryFirstAsync<ViewModel>(sql, request);
+        viewModel = await connection.QueryFirstAsync<ViewModel>(sql, request);
+        
+        if(!string.IsNullOrEmpty(viewModel.Path))
+	        viewModel.Image = await File.ReadAllBytesAsync(viewModel.Path, cancellationToken);
 
-        return result;
+        return viewModel;
     }
 }

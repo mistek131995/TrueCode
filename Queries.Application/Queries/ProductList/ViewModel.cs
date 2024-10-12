@@ -13,6 +13,10 @@ public class ViewModel
         public string Description { get; set; }
         public string Price { get; set; }
         public string PriceWithDiscount { get; set; }
-        public string ImagePath { get; set; }
+        public string FileName { get; set; }
+        public string ContentType { get; set; }
+        public byte[] Image { get; set; }
+        
+        internal string Path { get; set; }
     }
 }

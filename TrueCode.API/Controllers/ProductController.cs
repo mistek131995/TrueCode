@@ -22,6 +22,7 @@ public class ProductController(IMediator mediator) : ControllerBase
             await file.CopyToAsync(memoryStream);
             
             command.ImageName = file.FileName;
+            command.ContentType = file.ContentType;
             command.Image = memoryStream.ToArray();
         }
 
