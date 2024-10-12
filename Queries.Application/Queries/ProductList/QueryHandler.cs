@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using System.Text;
 using MediatR;
 using Dapper;
 
@@ -12,24 +13,16 @@ public class QueryHandler(IDbConnection connection) : IRequestHandler<Query, Vie
 
         var offset = (request.Page - 1) * request.CountProducts;
 
-        var sql = @"
-            SELECT
-            p.Id AS Id,
-            p.Name AS Name,
-            p.Price AS Price,
-            P.PriceWithDiscount AS PriceWithDiscount,
-            p.ImagePath AS ImagePath
-            FROM Products p
-            ORDER BY p.Id
-            OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY;
+        var sqlBuilder = new StringBuilder();
+        sqlBuilder.Append(QueryBuilder.GetProducts(request));
+        sqlBuilder.Append(QueryBuilder.GetPageCount(request));
 
-            SELECT CEILING(CONVERT(DECIMAL(18, 1), COUNT(*)) / @PageSize) FROM Products
-        ";
-
-        await using var query = await connection.QueryMultipleAsync(sql, new
+        await using var query = await connection.QueryMultipleAsync(sqlBuilder.ToString(), new
         {
             Offset = offset,
             PageSize = request.CountProducts,
+            Name = request.Name != null ? $"%{request.Name}%" : null,
+            request.Article
         });
 
         viewModel.Products = query.Read<ViewModel.Product>().ToList();
