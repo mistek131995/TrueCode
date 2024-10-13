@@ -26,8 +26,6 @@ builder.Services.AddCors(o => o.AddPolicy("AllowAll", builder =>
 
 var app = builder.Build();
 
-app.UseCors("AllowAll");
-
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<SQLContext>();
@@ -39,11 +37,13 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseCors("AllowAll");
 }
 
 app.UseMiddleware<ExceptionMiddleware>();
 
 app.MapControllers();
 app.UseStaticFiles();
+app.MapFallbackToFile("/index.html");
 
 app.Run();
