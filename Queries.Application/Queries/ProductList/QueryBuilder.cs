@@ -6,6 +6,7 @@ public static class QueryBuilder
             SELECT
             p.Id AS Id,
             p.Name AS Name,
+            p.Article AS Article,
             p.Price AS Price,
             P.PriceWithDiscount AS PriceWithDiscount,
 			[pi].FileName AS FileName,
