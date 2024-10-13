@@ -15,4 +15,7 @@ public class ProductImage
     public string Path { get; set; }
     [MaxLength(250)]
     public string ContentType { get; set; }
+    
+    [ForeignKey("ProductId")]
+    public Product Product { get; set; }
 }
