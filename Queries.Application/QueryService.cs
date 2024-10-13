@@ -13,6 +13,7 @@ public static class QueryService
         {
             cfg.RegisterServicesFromAssembly(typeof(QueryService).Assembly);
         });
+        services.AddMemoryCache();
         
         return services;
     }

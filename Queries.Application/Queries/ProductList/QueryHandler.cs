@@ -2,10 +2,11 @@
 using System.Text;
 using MediatR;
 using Dapper;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace Queries.Application.Queries.ProductList;
 
-public class QueryHandler(IDbConnection connection) : IRequestHandler<Query, ViewModel>
+public class QueryHandler(IDbConnection connection, IMemoryCache memoryCache) : IRequestHandler<Query, ViewModel>
 {
     public async Task<ViewModel> Handle(Query request, CancellationToken cancellationToken)
     {
@@ -28,11 +29,20 @@ public class QueryHandler(IDbConnection connection) : IRequestHandler<Query, Vie
         viewModel.Products = query.Read<ViewModel.Product>().ToList();
         viewModel.PageCount = query.ReadFirstOrDefault<int>();
 
-        foreach (var product in viewModel.Products.Where(x => !string.IsNullOrEmpty(x.Path)))
-        {
-            if(File.Exists(product.Path))
-                product.Image = await File.ReadAllBytesAsync(product.Path, cancellationToken);
-        }
+        // Параллельная загрузка изображений с кэшированием
+        var loadImagesTasks = viewModel.Products
+            .Where(x => !string.IsNullOrEmpty(x.Path) && File.Exists(x.Path))
+            .Select(async product =>
+            {
+                if (!memoryCache.TryGetValue(product.Path, out byte[] imageData))
+                {
+                    imageData = await File.ReadAllBytesAsync(product.Path, cancellationToken);
+                    memoryCache.Set(product.Path, imageData);
+                }
+                product.Image = imageData;
+            }).ToArray();
+
+        await Task.WhenAll(loadImagesTasks);
 
         return viewModel;
     }
