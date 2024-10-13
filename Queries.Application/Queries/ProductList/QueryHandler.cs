@@ -34,12 +34,19 @@ public class QueryHandler(IDbConnection connection, IMemoryCache memoryCache) : 
             .Where(x => !string.IsNullOrEmpty(x.Path) && File.Exists(x.Path))
             .Select(async product =>
             {
-                if (!memoryCache.TryGetValue(product.Path, out byte[] imageData))
+                try
                 {
-                    imageData = await File.ReadAllBytesAsync(product.Path, cancellationToken);
-                    memoryCache.Set(product.Path, imageData);
+                    if (!memoryCache.TryGetValue(product.Path, out byte[] imageData))
+                    {
+                        imageData = await File.ReadAllBytesAsync(product.Path, cancellationToken);
+                        memoryCache.Set(product.Path, imageData);
+                    }
+                    product.Image = imageData;
                 }
-                product.Image = imageData;
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Ошибка при загрузке изображения: {ex.Message}");
+                }
             }).ToArray();
 
         await Task.WhenAll(loadImagesTasks);
