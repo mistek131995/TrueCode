@@ -11,7 +11,9 @@ public class ProductImageRepository(SQLContext context) : IProductImageRepositor
     public async Task<ProductImage?> GetByProductIdAsync(Guid productId)
     {
         var mapper = new ProductImageMapper();
-        var productImage = await context.ProductImages.FirstOrDefaultAsync(x => x.ProductId == productId);
+        var productImage = await context.ProductImages
+            .AsTracking()
+            .FirstOrDefaultAsync(x => x.ProductId == productId);
 
         return productImage == null ? null : mapper.MappingToDomainModel(productImage);
     }
