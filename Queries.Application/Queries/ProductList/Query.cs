@@ -17,7 +17,7 @@ public class Query : IRequest<ViewModel>
         None = 0,
         NameAZ = 1,
         NameZA = 2,
-        PriceMoreLess = 3,
-        PriceLessMore = 4,
+        PriceLessMore = 3,
+        PriceMoreLess = 4,
     }
 }
