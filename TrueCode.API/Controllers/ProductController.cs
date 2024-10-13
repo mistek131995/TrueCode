@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SaveProductCommand = Commands.Application.Commands.SaveProduct.Command;
 using DeleteProductCommand = Commands.Application.Commands.DeleteProduct.Command;
+using DeleteProductImageCommand = Commands.Application.Commands.DeleteImage.Command;
 using GetProductListQuery = Queries.Application.Queries.ProductList.Query;
 using GetProductQuery = Queries.Application.Queries.Product.Query;
 
@@ -33,6 +34,14 @@ public class ProductController(IMediator mediator) : ControllerBase
 
     [HttpPost]
     public async Task<IActionResult> DeleteProduct([FromBody] DeleteProductCommand command)
+    {
+        await mediator.Send(command);
+
+        return Ok();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> DeleteProductImage([FromBody] DeleteProductImageCommand command)
     {
         await mediator.Send(command);
 

@@ -6,4 +6,5 @@ public interface IProductImageRepository : IBaseRepository
 {
     Task<ProductImage?> GetByProductIdAsync(Guid productId);
     Task<ProductImage> SaveAsync(ProductImage productImage);
+    Task DeleteByProductIdAsync(Guid productId);
 }

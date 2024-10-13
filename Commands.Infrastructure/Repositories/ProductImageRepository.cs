@@ -32,4 +32,11 @@ public class ProductImageRepository(SQLContext context) : IProductImageRepositor
 
         return productImage;
     }
+
+    public async Task DeleteByProductIdAsync(Guid productId)
+    {
+        var productImage = context.ProductImages.FirstOrDefault(x => x.ProductId == productId);
+        context.ProductImages.Remove(productImage);
+        await context.SaveChangesAsync();
+    }
 }
