@@ -15,8 +15,8 @@
       - MSSQL_PID=Express
     ports:
       - "1434:1433"
-    volumes:
-      - mssql-data:/var/opt/mssql
+    #volumes:
+    #  - mssql-data:/var/opt/mssql
 
-volumes:
-  mssql-data:
+#volumes:
+#  mssql-data:
