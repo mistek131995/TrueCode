@@ -10,7 +10,7 @@ RUN git clone https://github.com/mistek131995/true-code-client.git
 
 # Установка Node.js и npm для сборки клиента
 RUN apt-get update && apt-get install -y curl \
-    && curl -fsSL https://deb.nodesource.com/setup_16.x | bash - \
+    && curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
     && apt-get install -y nodejs
 
 # Перемещаемся в директорию клиента
