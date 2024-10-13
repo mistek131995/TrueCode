@@ -26,6 +26,14 @@ public class CommandHandler(IRepositoryProvider repositoryProvider, IFileStorage
         
         if (request.Image is { Length: > 0 })
         {
+            if (request.Id != null && request.Id != default)
+            { 
+                var existProductImage = await repositoryProvider.ProductImageRepository.GetByProductIdAsync(request.Id.Value);
+                
+                if(existProductImage != null)
+                    File.Delete(existProductImage.Path);
+            }
+            
             var imagePath = await fileStorageService.SaveFileAsync(request.Image, request.ImageName, "image");
             var productImage = new ProductImage(product.Id, request.ImageName, imagePath, request.ContentType);
             await repositoryProvider.ProductImageRepository.SaveAsync(productImage);

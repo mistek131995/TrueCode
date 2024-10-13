@@ -30,7 +30,8 @@ public class QueryHandler(IDbConnection connection) : IRequestHandler<Query, Vie
 
         foreach (var product in viewModel.Products.Where(x => !string.IsNullOrEmpty(x.Path)))
         {
-            product.Image = await File.ReadAllBytesAsync(product.Path, cancellationToken);
+            if(File.Exists(product.Path))
+                product.Image = await File.ReadAllBytesAsync(product.Path, cancellationToken);
         }
 
         return viewModel;

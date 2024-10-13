@@ -29,7 +29,7 @@ public class QueryHandler(IDbConnection connection) : IRequestHandler<Query, Vie
 
         viewModel = await connection.QueryFirstAsync<ViewModel>(sql, request);
         
-        if(!string.IsNullOrEmpty(viewModel.Path))
+        if(!string.IsNullOrEmpty(viewModel.Path) && File.Exists(viewModel.Path))
 	        viewModel.Image = await File.ReadAllBytesAsync(viewModel.Path, cancellationToken);
 
         return viewModel;
