@@ -5,9 +5,7 @@ using Queries.Application;
 using TrueCode.API.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
-var connectionString = "Server=mssql;Database=TrueCode;User Id=sa;Password=TrueCode2024@;TrustServerCertificate=True;";
-
-Console.WriteLine(connectionString);
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")!;
 
 builder.Services.AddCommands(connectionString);
 builder.Services.AddQueries(connectionString);
