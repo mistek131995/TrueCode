@@ -69,7 +69,7 @@ namespace TrueCode.Tests
         public async Task SaveAsync_UpdatesExistingProduct_WhenProductExists()
         {
             // Arrange
-            var product = new Product { Id = Guid.NewGuid(), Name = "ExistingProduct", Description = "Description", Price = 100m, PriceWithDiscount = 90m };
+            var product = new Product { Id = Guid.NewGuid(), Name = "ExistingProduct", Article = "Article", Description = "Description", Price = 100m, PriceWithDiscount = 90m };
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
 
@@ -89,8 +89,8 @@ namespace TrueCode.Tests
         public async Task GetByIdsAsync_MultipleIds_ReturnsProducts()
         {
             // Arrange
-            var product1 = new Product { Id = Guid.NewGuid(), Name = "Product1", Description = "Description1", Price = 100m, PriceWithDiscount = 90m };
-            var product2 = new Product { Id = Guid.NewGuid(), Name = "Product2", Description = "Description2", Price = 200m, PriceWithDiscount = 180m };
+            var product1 = new Product { Id = Guid.NewGuid(), Name = "Product1", Article = "Article 1", Description = "Description1", Price = 100m, PriceWithDiscount = 90m };
+            var product2 = new Product { Id = Guid.NewGuid(), Name = "Product2", Article = "Article 2", Description = "Description2", Price = 200m, PriceWithDiscount = 180m };
             _context.Products.AddRange(product1, product2);
             await _context.SaveChangesAsync();
 
